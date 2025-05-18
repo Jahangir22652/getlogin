@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ad Click to Show Credentials</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1f4037, #99f2c8);
+    margin: 0; padding: 20px;
+    display: flex; justify-content: center; align-items: center; height: 100vh;
+  }
+  .container {
+    background: #fff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+  }
+  h2 {
+    color: #2d6a4f;
+  }
+  p {
+    color: #555;
+    margin-bottom: 25px;
+  }
+  button {
+    background-color: #40916c;
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover:not(:disabled) {
+    background-color: #2d6a4f;
+  }
+  button:disabled {
+    background-color: #95d5b2;
+    cursor: default;
+  }
+  #status {
+    margin: 15px 0 20px;
+    font-weight: 600;
+    color: #333;
+  }
+  /* Progress Bar */
+  .progress-bar {
+    background: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 16px;
+    margin-bottom: 20px;
+  }
+  .progress-fill {
+    background-color: #40916c;
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease;
+  }
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0; top: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+  }
+  .modal-content {
+    background: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  .modal-content h3 {
+    margin-bottom: 15px;
+    color: #2d6a4f;
+  }
+  .credentials {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1b4332;
+    user-select: all;
+    margin-bottom: 10px;
+  }
+  .close-btn {
+    margin-top: 15px;
+    padding: 10px 22px;
+    background: #40916c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .close-btn:hover {
+    background: #2d6a4f;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Open Ad 10 Times to Get Credentials</h2>
+  <p>Click the button below 10 times. Each click opens the ad link in a new tab.</p>
+  
+  <button id="openAdBtn">Open Ad</button>
+  
+  <div id="status">
+    Ads opened: <span id="count">0</span>/10
+  </div>
+  
+  <div class="progress-bar" aria-label="Ads opened progress">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="credModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+  <div class="modal-content">
+    <h3 id="modalTitle">Login Credentials</h3>
+    <div class="credentials">Email: <span>give@away.com</span></div>
+    <div class="credentials">Password: <span>Giveawaylhjhjdgj</span></div>
+    <button class="close-btn" id="closeModalBtn">Close</button>
+  </div>
+</div>
+
+<script>
+  const totalClicks = 10;
+  let clickCount = 0;
+  const countSpan = document.getElementById('count');
+  const openAdBtn = document.getElementById('openAdBtn');
+  const progressFill = document.getElementById('progressFill');
+  const modal = document.getElementById('credModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+
+  const adLink = 'https://www.profitableratecpm.com/azpxsgygr4?key=769873c82ed168cb67c0cdf3aeea769d';
+
+  openAdBtn.onclick = () => {
+    if(clickCount < totalClicks) {
+      window.open(adLink, '_blank');
+      clickCount++;
+      countSpan.textContent = clickCount;
+      progressFill.style.width = (clickCount / totalClicks) * 100 + '%';
+    }
+    if(clickCount === totalClicks) {
+      openAdBtn.disabled = true;
+      showModal();
+    }
+  };
+
+  function showModal() {
+    modal.style.display = 'flex';
+    modal.focus();
+  }
+
+  closeModalBtn.onclick = () => {
+    modal.style.display = 'none';
+  }
+
+  // Optional: close modal on clicking outside content
+  window.onclick = (e) => {
+    if(e.target === modal) {
+      modal.style.display = 'none';
+    }
+  }
+</script>
+
+</body>
+</html>
